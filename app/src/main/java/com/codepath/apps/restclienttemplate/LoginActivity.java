@@ -11,36 +11,6 @@ import com.codepath.apps.restclienttemplate.models.SampleModel;
 import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
-// USE TO ACCESS CLIENT
-//		RestClient client = RestApplication.getRestClient();
-//		client.getHomeTimeline(1, new JsonHttpResponseHandler() {
-//			@Override
-//			public void onSuccess(int statusCode, Headers headers, JSON json) {
-//				Log.v(json.jsonArray.getJSONObject(0).getLong("id"));
-//			}
-//		});
-
-// LOAD DATA INTO MODELS FROM JSONARRAY
-// ArrayList<Tweet> tweets = Tweet.fromJSON(jsonArray);
-
-// LOAD DATA FROM SINGLE JSON OBJECT
-// Tweet t = new Tweet(json);
-// t.body = "foo"
-
-// TO SAVE
-//AsyncTask<Tweet, Void, Void> task = new AsyncTask<Tweet, Void, Void>() {
-//@Override
-//protected Void doInBackground(Tweet... tweets) {
-//		TwitterDao twitterDao = ((RestApplication) getApplicationContext()).getMyDatabase().twitterDao();
-//		twitterDao.insertModel(tweets);
-//		return null;
-//		};
-//		};
-//		task.execute(tweets);
-
-// If client and secret are having a problem,
-
-
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	SampleModelDao sampleModelDao;
