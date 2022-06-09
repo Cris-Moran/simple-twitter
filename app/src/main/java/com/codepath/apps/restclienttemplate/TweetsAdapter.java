@@ -1,9 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     Context context;
     List<Tweet> tweets;
+
 
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
@@ -49,6 +53,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         ImageView ivEmbeddedImage;
+        TextView tvTimestamp;
+        Button btnReply;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +62,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             ivEmbeddedImage = itemView.findViewById(R.id.ivEmbeddedImage);
+            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
+            btnReply = itemView.findViewById(R.id.btnReply);
         }
 
         public void bind(Tweet tweet) {
@@ -68,6 +76,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             } else {
                 ivEmbeddedImage.setVisibility(View.GONE);
             }
+            tvTimestamp.setText(tweet.timestamp);
+            btnReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("username", tweet.user.screenName);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
