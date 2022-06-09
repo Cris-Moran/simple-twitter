@@ -4,6 +4,7 @@ import static com.codepath.apps.restclienttemplate.BuildConfig.CONSUMER_KEY;
 import static com.codepath.apps.restclienttemplate.BuildConfig.CONSUMER_SECRET;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -11,6 +12,10 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.FlickrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /*
  * 
@@ -48,11 +53,16 @@ public class TwitterClient extends OAuthBaseClient {
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
 	public void getHomeTimeline(JsonHttpResponseHandler handler) {
+		getHomeTimeline(handler, 0);
+	}
+
+	public void getHomeTimeline(JsonHttpResponseHandler handler, int page) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
-		params.put("count", 1);
-		params.put("since_id", 1);
+		params.put("tweet_mode", "extended");
+		params.put("count", 25);
+		params.put("page", page);
 		client.get(apiUrl, params, handler);
 	}
 
@@ -64,6 +74,7 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler);
 	}
 
+
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
 	 * 2. Define the parameters to pass to the request (query or body)
@@ -72,17 +83,4 @@ public class TwitterClient extends OAuthBaseClient {
 	 *    i.e client.get(apiUrl, params, handler);
 	 *    i.e client.post(apiUrl, params, handler);
 	 */
-//	public void getHomeTimeline(int page, JsonHttpResponseHandler handler) {
-//		String apiUrl = getApiUrl("statuses/home_timeline.json");
-//		RequestParams params = new RequestParams();
-//		params.put("page", String.valueOf(page));
-//		getClient().get(apiUrl, params, handler);
-//	}
-//
-//	public void postTweet(String body, JsonHttpResponseHandler handler) {
-//		String apiUrl = getApiUrl("statuses/update.json");
-//		RequestParams params = new RequestParams();
-//		params.put("status", body);
-//		getClient().post(apiUrl, params, handler);
-//	}
 }

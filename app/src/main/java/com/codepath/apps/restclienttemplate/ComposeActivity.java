@@ -25,6 +25,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText etCompose;
     Button btnTweet;
+    String username;
 
     TwitterClient client;
 
@@ -38,6 +39,11 @@ public class ComposeActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
+
+        username = getIntent().getStringExtra("username");
+        if (username != null) {
+            etCompose.setText("@" + username + " ");
+        }
         // Set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
