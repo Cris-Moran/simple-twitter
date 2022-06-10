@@ -3,17 +3,24 @@ package com.codepath.apps.restclienttemplate;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -37,7 +44,7 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     Button logoutButton;
-    Button btnReply;
+    ImageButton btnReply;
     private SwipeRefreshLayout swipeContainer;
     MenuItem miActionProgressItem;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -77,6 +84,9 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(adapter);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(), linearLayoutManager.getOrientation());
+        rvTweets.addItemDecoration(dividerItemDecoration);
+
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -107,10 +117,10 @@ public class TimelineActivity extends AppCompatActivity {
     // Append the next page of data into the adapter
     // This method probably sends out a network request and appends new data items to your adapter.
     public void addToTimeline(int offset) {
+        showProgressBar();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
@@ -126,16 +136,17 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.e("DEBUG", "Fetch timeline error: " + response);
             }
         }, offset);
+        hideProgressBar();
     }
 
     public void refreshTimeline() {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
+        showProgressBar();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess " + json.toString());
                 // Remember to CLEAR OUT old items before appending in the new ones
                 adapter.clear();
                 // ...the data has come back, add new items to your adapter...
@@ -149,27 +160,23 @@ public class TimelineActivity extends AppCompatActivity {
                 }
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
+
             }
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e("DEBUG", "Fetch timeline error: " + response);
             }
         });
+        hideProgressBar();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Return to finish
-        return super.onPrepareOptionsMenu(menu);
+        int white = getResources().getColor(R.color.white);
+        menu.findItem(R.id.compose).getIcon().setColorFilter(white, PorterDuff.Mode.SRC_ATOP);
+        return true;
     }
 
     public void showProgressBar() {
@@ -213,7 +220,6 @@ public class TimelineActivity extends AppCompatActivity {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess! " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
@@ -223,7 +229,6 @@ public class TimelineActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.i(TAG, "onFailure. " + statusCode + " " + response, throwable);

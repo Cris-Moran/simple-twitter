@@ -6,6 +6,7 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="colorPrimary">@color/twitter_blue</item>
     </style>
 
     <!-- Application theme. -->
@@ -19,6 +20,11 @@
 
     <style name="counterOverride">
         <item name="android:textColor">#ff0000</item>
+    </style>
+
+    <style name="myButton" parent="ThemeOverlay.AppCompat.Light">
+        <!-- customize colorAccent for the enabled color -->
+        <item name="colorButtonNormal">@color/twitter_blue</item>
     </style>
 
     <color name="medium_green">#ff17bf63</color>
@@ -40,5 +46,6 @@
     <color name="inline_action_pressed">@color/medium_gray_50</color>
     <color name="inline_action_retweet">@color/medium_green</color>
     <color name="inline_action_retweet_pressed">@color/medium_gray_50</color>
+    <color name="white">@android:color/white</color>
 
 </resources>

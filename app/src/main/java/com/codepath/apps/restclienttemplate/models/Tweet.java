@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate.models;
 
-import android.text.format.DateUtils;
-import android.util.Log;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,15 +63,15 @@ public class Tweet {
             } else if (diff < 2 * MINUTE_MILLIS) {
                 return "a minute ago";
             } else if (diff < 50 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + " m";
+                return diff / MINUTE_MILLIS + "m";
             } else if (diff < 90 * MINUTE_MILLIS) {
                 return "an hour ago";
             } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + " h";
+                return diff / HOUR_MILLIS + "h";
             } else if (diff < 48 * HOUR_MILLIS) {
                 return "yesterday";
             } else {
-                return diff / DAY_MILLIS + " d";
+                return diff / DAY_MILLIS + "d";
             }
         } catch (ParseException e) {
             e.printStackTrace();
