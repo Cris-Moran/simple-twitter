@@ -2,6 +2,14 @@ package com.codepath.apps.restclienttemplate.models;
 
 
 
+import android.provider.ContactsContract;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,12 +22,31 @@ import java.util.List;
 import java.util.Locale;
 
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity=User.class, parentColumns="id", childColumns="userId"))
 public class Tweet {
+
+    @ColumnInfo
+    @PrimaryKey
+    public long id;
+
+    @ColumnInfo
     public String body;
+
+    @ColumnInfo
     public String createdAt;
+
+    @Ignore
     public User user;
+
+    @ColumnInfo
+    public long userId;
+
+    @ColumnInfo
     public String imgUrl;
+
+    @ColumnInfo
     public String timestamp;
+
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -37,7 +64,9 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
         }
         tweet.createdAt = jsonObject.getString("created_at");
-        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        User user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.user = user;
+        tweet.userId = user.id;
         JSONObject entities = jsonObject.getJSONObject("entities");
         try {
             tweet.imgUrl = entities.getJSONArray("media").getJSONObject(0).getString("media_url_https");
