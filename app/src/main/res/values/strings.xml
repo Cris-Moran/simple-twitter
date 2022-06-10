@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TwitterClone300</string>
+    <string name="app_name">Twitter</string>
     <string name="login_label">Log in</string>
     <string name="intent_scheme">cubanfood</string>
     <string name="intent_host">mexicanfood</string>
     <string name="tweet">Tweet</string>
     <string name="whats_happening">What\'s Happening?</string>
+    <string name="reply">reply</string>
 
 </resources>
