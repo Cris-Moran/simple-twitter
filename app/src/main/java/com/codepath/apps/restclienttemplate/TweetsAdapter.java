@@ -73,8 +73,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             Glide.with(context).load(tweet.user.profileImageUrl).circleCrop().into(ivProfileImage);
             if (tweet.imgUrl != null) {
                 ivEmbeddedImage.setVisibility(View.VISIBLE);
-                int imgRadius = 40;
-                Glide.with(context).load(tweet.imgUrl).transform(new RoundedCorners(imgRadius)).into(ivEmbeddedImage);
+                int imgRadius = 60;
+                Glide.with(context).load(tweet.imgUrl).circleCrop().transform(new RoundedCorners(imgRadius)).into(ivEmbeddedImage);
             } else {
                 ivEmbeddedImage.setVisibility(View.GONE);
             }

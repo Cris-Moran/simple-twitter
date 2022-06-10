@@ -3,8 +3,8 @@
 
     <string name="app_name">Twitter</string>
     <string name="login_label">Log in</string>
-    <string name="intent_scheme">cuban_food</string>
-    <string name="intent_host">mexican_food</string>
+    <string name="intent_scheme">cubanfood</string>
+    <string name="intent_host">mexicanfood</string>
     <string name="tweet">Tweet</string>
     <string name="whats_happening">What\'s Happening?</string>
     <string name="reply">reply</string>
